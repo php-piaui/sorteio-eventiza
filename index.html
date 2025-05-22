@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Sorteio de Participante</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+      background-color: #f4f4f4;
+    }
+
+    #resultado {
+      font-size: 2em;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    #nomeSorteado {
+      color: green;
+      font-weight: bold;
+      transition: all 0.5s ease-in-out;
+    }
+
+    #rolandoNomes {
+      font-size: 1.5em;
+      color: #555;
+      height: 40px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .nome-roll {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: roll 0.3s ease-in-out infinite;
+    }
+    
+
+    @keyframes roll {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+    }
+  </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <h1>Sorteie um participante!</h1>
+  <button onclick="iniciarSorteio()">Sortear</button>
+
+  <div id="rolandoNomes"></div>
+  <div id="resultado"></div>
+
+  <script>
+    // Dados convertidos do CSV fornecido (carregado no contexto)
+    const participantes = [
+  {
+    "Nome do participante": "Bruno dos Santos Oliveira",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "bds.commus@gmail.com",
+    "Instituição de Ensino": "Cajutec"
+  },
+  {
+    "Nome do participante": "Lucas Lima Souza ",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "zerolucas111@gmail.com",
+    "Instituição de Ensino": "Superior "
+  },
+  {
+    "Nome do participante": "FRANCISCO FILIPE FERREIRA PINTO",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "filipeferreira3f@gmail.com",
+    "Instituição de Ensino": "Instituto Federal do Piauí "
+  },
+  {
+    "Nome do participante": "Alex Victor Pereira Lemos",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "alexvictorphb@gmail.com",
+    "Instituição de Ensino": "Uninassau Parnaíba"
+  },
+  {
+    "Nome do participante": "EDUARDO FROTA ARAUJO",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "dudu_122@hotmail.com",
+    "Instituição de Ensino": "Estacio"
+  },
+  {
+    "Nome do participante": "Maria Tainá de Miranda Feitosa",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "mariatainamirandafeitosa@gmail.com",
+    "Instituição de Ensino": "Uninassau parnaiba "
+  },
+  {
+    "Nome do participante": "Gabriel Pereira Gomes",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "snippighost1233@gmail.com",
+    "Instituição de Ensino": "Uninassau João XXIII"
+  },
+  {
+    "Nome do participante": "Isadora Gabriella Figueiredo Martins ",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "isag12771@gmail.com",
+    "Instituição de Ensino": "Iesvap "
+  },
+  {
+    "Nome do participante": "Carlos Eduardo Alves Viana",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "eduardostrink@gmail.com",
+    "Instituição de Ensino": "UNINASSAU"
+  },
+  {
+    "Nome do participante": "Fernando de Araújo Braga Filho ",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "fernandobraga1032@gmail.com",
+    "Instituição de Ensino": "Uninassau"
+  },
+  {
+    "Nome do participante": "Maria Eduarda Patrício do Nascimento ",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "dudanasciamento@gmail.com",
+    "Instituição de Ensino": "uninassau "
+  },
+  {
+    "Nome do participante": "Anne Karoline de Oliveira Batista",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "annekarol.oliveirabatista@gmail.com",
+    "Instituição de Ensino": "Mauricio de Nassau"
+  },
+  {
+    "Nome do participante": "Vinícius Magalhães Dias",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "vyvy292004@gmail.com",
+    "Instituição de Ensino": "Uespi "
+  },
+  {
+    "Nome do participante": "Maria Fernanda Rodrigues Costa",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "mafeerocosta@gmail.com",
+    "Instituição de Ensino": "Instituto Federal do Piauí"
+  },
+  {
+    "Nome do participante": "Mateus Sousa da Silva",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "sousamateusdev@gmail.com",
+    "Instituição de Ensino": "Uninassau"
+  },
+  {
+    "Nome do participante": "Mykael Da Silva Porto ",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "portomikael6@gmail.com",
+    "Instituição de Ensino": "Centro Universitário Mauricio De Nassau"
+  },
+  {
+    "Nome do participante": "George Luiz Torres Gomes Peixoto",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "gpx711@gmail.com",
+    "Instituição de Ensino": "Uninassau"
+  },
+  {
+    "Nome do participante": "DAVID FERNANDO PASCOA LIMA",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "dfpl821@gmail.com",
+    "Instituição de Ensino": "Uninassau "
+  },
+  {
+    "Nome do participante": "Yan seligmann soares marques",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "yan73778@gmail.com",
+    "Instituição de Ensino": "Uninassau parnaíba"
+  },
+  {
+    "Nome do participante": "Juan Silva",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "juansilva110902@gmail.com",
+    "Instituição de Ensino": "Nassau "
+  },
+  {
+    "Nome do participante": "CARLOS VINICIUS DO NASCIMENTO SILVA",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "carlosviniciusdonacimentosilva@gmail.com",
+    "Instituição de Ensino": "Uninassau"
+  },
+  {
+    "Nome do participante": "Guilherme Nascimento da Silva",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "guylhermenascimento2006@gmail.com",
+    "Instituição de Ensino": "UNINASSAU"
+  },
+  {
+    "Nome do participante": "Maria Tainá de Miranda Feitosa",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "mariatainamirandafeitosa@gmail.com",
+    "Instituição de Ensino": "Uninassau parnaiba "
+  },
+  {
+    "Nome do participante": "VICENTE ALVES DA COSTA NETO",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "vicentelucas610@gmail.com",
+    "Instituição de Ensino": "Maurício de Nassau "
+  },
+  {
+    "Nome do participante": "Nycole Da Silva Pereira ",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "nycolepereira019@gmail.com",
+    "Instituição de Ensino": "Uninassau"
+  },
+  {
+    "Nome do participante": "David Pinheiro do Prado",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "davidphbmail@gmail.com",
+    "Instituição de Ensino": "UNINASSAU"
+  },
+  {
+    "Nome do participante": "Josué da Silva Barros",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "josueprofissional38@gmail.com",
+    "Instituição de Ensino": "Uninassau"
+  },
+  {
+    "Nome do participante": "Jorge Emanuell Lima Viana ",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "jorgeemanuell03@gmail.com",
+    "Instituição de Ensino": "Maurício de Sousa uninassau "
+  },
+  {
+    "Nome do participante": "Liam Hoffman ",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "liamhoffman2022@gmail.com",
+    "Instituição de Ensino": "Senac"
+  },
+  {
+    "Nome do participante": "Wendhel Mota luz ",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "wendhelluz1@gmail.com",
+    "Instituição de Ensino": "UNINASSAU"
+  },
+  {
+    "Nome do participante": "Miguel Arcanjo Fontenele Ferreira",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "mg4422718@gmail.com",
+    "Instituição de Ensino": "Uninassau - Parnaíba"
+  },
+  {
+    "Nome do participante": "Gean Carlos Rocha Brito",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "grochabrito@gmail.com",
+    "Instituição de Ensino": "UNINASSAU"
+  },
+  {
+    "Nome do participante": "Marcos Vinicius Carvalho da Silva",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "mvplay111@gmail.com",
+    "Instituição de Ensino": "UNINASSAU - Parnaíba"
+  },
+  {
+    "Nome do participante": "Kauê Victor Dos Santos Lima",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "kauephbnet@gmail.com",
+    "Instituição de Ensino": "Uninassau Parnaíba"
+  },
+  {
+    "Nome do participante": "IGOR GABRIEL DE SOUSA SILVA",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "dev.igorsousa@gmail.com",
+    "Instituição de Ensino": "Faculdade Estácio"
+  },
+  {
+    "Nome do participante": "Walter da Costa Ferreira Neto",
+    "Check-in efetuado": "Não",
+    "E-mail do participante": "waltercostaeng@gmail.com",
+    "Instituição de Ensino": "-"
+  }
+]
+
+    let intervaloRolagem;
+    let tempoTotal = 3000; // 3 segundos
+    let frequenciaTroca = 150; // milissegundos entre trocas
+
+    function iniciarSorteio() {
+      if (participantes.length === 0) {
+        alert("Nenhum participante disponível para sorteio.");
+        return;
+      }
+
+      document.getElementById('resultado').innerHTML = "";
+      clearInterval(intervaloRolagem);
+
+      let inicio = Date.now();
+      intervaloRolagem = setInterval(() => {
+        const indiceAleatorio = Math.floor(Math.random() * participantes.length);
+        const nomeAleatorio = participantes[indiceAleatorio]["Nome do participante"];
+        mostrarNomeRolando(nomeAleatorio);
+
+        if (Date.now() - inicio >= tempoTotal) {
+          clearInterval(intervaloRolagem);
+          const participanteSorteado = participantes[Math.floor(Math.random() * participantes.length)];
+          mostrarResultado(participanteSorteado);
+        }
+      }, frequenciaTroca);
+    }
+
+    function mostrarNomeRolando(nome) {
+      const container = document.getElementById('rolandoNomes');
+      container.innerHTML = `<div class="nome-roll">${nome}</div>`;
+    }
+
+    function mostrarResultado(participante) {
+  document.getElementById('rolandoNomes').innerHTML = "";
+
+  // Exibe os dados do sorteado
+  document.getElementById('resultado').innerHTML = `
+            <p>🎉 Parabéns!</p>
+            <h2 id="nomeSorteado">${participante["Nome do participante"]}</h2>
+            <div style="font-size: 0.9em; color: #555; text-align: center;">
+            <p><strong>E-mail:</strong> ${participante["E-mail do participante"]}</p>
+            <p><strong>Instituição:</strong> ${participante["Instituição de Ensino"]}</p>
+            <p><strong>Check-in:</strong> ${participante["Check-in efetuado"]}</p>
+            </div>
+        `;
+
+        // Dispara os confetes 🎉
+        confetti({
+            particleCount: 200,
+            angle: 90,
+            spread: 90,
+            startVelocity: 45,
+            decay: 0.91,
+            gravity: 1.2,
+            drift: 0,
+            colors: ['#FFC53A', '#FF4E88', '#4EFFFF', '#B2FF4A', '#FF99F7'],
+            shapes: ['circle', 'square'],
+            scalar: 1.2,
+            ticks: 200
+        });
+    }
+
+    
+  </script>
+</body>
+</html>
