@@ -41,6 +41,55 @@
       animation: roll 0.3s ease-in-out infinite;
     }
     
+    .mensagem-erro {
+      font-family: 'Courier New', monospace;
+      background-color: #111;
+      color: #ff4d4d;
+      border: 2px solid #ff0000;
+      padding: 20px;
+      margin-top: 20px;
+      font-size: 1.4em;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #ff0000aa;
+      animation: fadeInStorm 1s ease-out;
+    }
+
+    @keyframes fadeInStorm {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    #tempestade-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      display: none;
+    }
+
+    .raio {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      animation: raioAnim 0.3s ease-in-out infinite alternate;
+    }
+
+    @keyframes raioAnim {
+      0% { opacity: 0; height: 0; }
+      50% { opacity: 1; height: 100%; }
+      100% { opacity: 0; height: 0; }
+    }
 
     @keyframes roll {
       0% {
@@ -70,223 +119,21 @@
   <script>
     // Dados convertidos do CSV fornecido (carregado no contexto)
     const participantes = [
-  {
-    "Nome do participante": "Bruno dos Santos Oliveira",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "bds.commus@gmail.com",
-    "Instituição de Ensino": "Cajutec"
-  },
-  {
-    "Nome do participante": "Lucas Lima Souza ",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "zerolucas111@gmail.com",
-    "Instituição de Ensino": "Superior "
-  },
-  {
-    "Nome do participante": "FRANCISCO FILIPE FERREIRA PINTO",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "filipeferreira3f@gmail.com",
-    "Instituição de Ensino": "Instituto Federal do Piauí "
-  },
-  {
-    "Nome do participante": "Alex Victor Pereira Lemos",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "alexvictorphb@gmail.com",
-    "Instituição de Ensino": "Uninassau Parnaíba"
-  },
-  {
-    "Nome do participante": "EDUARDO FROTA ARAUJO",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "dudu_122@hotmail.com",
-    "Instituição de Ensino": "Estacio"
-  },
-  {
-    "Nome do participante": "Maria Tainá de Miranda Feitosa",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "mariatainamirandafeitosa@gmail.com",
-    "Instituição de Ensino": "Uninassau parnaiba "
-  },
-  {
-    "Nome do participante": "Gabriel Pereira Gomes",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "snippighost1233@gmail.com",
-    "Instituição de Ensino": "Uninassau João XXIII"
-  },
-  {
-    "Nome do participante": "Isadora Gabriella Figueiredo Martins ",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "isag12771@gmail.com",
-    "Instituição de Ensino": "Iesvap "
-  },
-  {
-    "Nome do participante": "Carlos Eduardo Alves Viana",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "eduardostrink@gmail.com",
-    "Instituição de Ensino": "UNINASSAU"
-  },
-  {
-    "Nome do participante": "Fernando de Araújo Braga Filho ",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "fernandobraga1032@gmail.com",
-    "Instituição de Ensino": "Uninassau"
-  },
-  {
-    "Nome do participante": "Maria Eduarda Patrício do Nascimento ",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "dudanasciamento@gmail.com",
-    "Instituição de Ensino": "uninassau "
-  },
-  {
-    "Nome do participante": "Anne Karoline de Oliveira Batista",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "annekarol.oliveirabatista@gmail.com",
-    "Instituição de Ensino": "Mauricio de Nassau"
-  },
-  {
-    "Nome do participante": "Vinícius Magalhães Dias",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "vyvy292004@gmail.com",
-    "Instituição de Ensino": "Uespi "
-  },
-  {
-    "Nome do participante": "Maria Fernanda Rodrigues Costa",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "mafeerocosta@gmail.com",
-    "Instituição de Ensino": "Instituto Federal do Piauí"
-  },
-  {
-    "Nome do participante": "Mateus Sousa da Silva",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "sousamateusdev@gmail.com",
-    "Instituição de Ensino": "Uninassau"
-  },
-  {
-    "Nome do participante": "Mykael Da Silva Porto ",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "portomikael6@gmail.com",
-    "Instituição de Ensino": "Centro Universitário Mauricio De Nassau"
-  },
-  {
-    "Nome do participante": "George Luiz Torres Gomes Peixoto",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "gpx711@gmail.com",
-    "Instituição de Ensino": "Uninassau"
-  },
-  {
-    "Nome do participante": "DAVID FERNANDO PASCOA LIMA",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "dfpl821@gmail.com",
-    "Instituição de Ensino": "Uninassau "
-  },
-  {
-    "Nome do participante": "Yan seligmann soares marques",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "yan73778@gmail.com",
-    "Instituição de Ensino": "Uninassau parnaíba"
-  },
-  {
-    "Nome do participante": "Juan Silva",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "juansilva110902@gmail.com",
-    "Instituição de Ensino": "Nassau "
-  },
-  {
-    "Nome do participante": "CARLOS VINICIUS DO NASCIMENTO SILVA",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "carlosviniciusdonacimentosilva@gmail.com",
-    "Instituição de Ensino": "Uninassau"
-  },
-  {
-    "Nome do participante": "Guilherme Nascimento da Silva",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "guylhermenascimento2006@gmail.com",
-    "Instituição de Ensino": "UNINASSAU"
-  },
-  {
-    "Nome do participante": "Maria Tainá de Miranda Feitosa",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "mariatainamirandafeitosa@gmail.com",
-    "Instituição de Ensino": "Uninassau parnaiba "
-  },
-  {
-    "Nome do participante": "VICENTE ALVES DA COSTA NETO",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "vicentelucas610@gmail.com",
-    "Instituição de Ensino": "Maurício de Nassau "
-  },
-  {
-    "Nome do participante": "Nycole Da Silva Pereira ",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "nycolepereira019@gmail.com",
-    "Instituição de Ensino": "Uninassau"
-  },
-  {
-    "Nome do participante": "David Pinheiro do Prado",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "davidphbmail@gmail.com",
-    "Instituição de Ensino": "UNINASSAU"
-  },
-  {
-    "Nome do participante": "Josué da Silva Barros",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "josueprofissional38@gmail.com",
-    "Instituição de Ensino": "Uninassau"
-  },
-  {
-    "Nome do participante": "Jorge Emanuell Lima Viana ",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "jorgeemanuell03@gmail.com",
-    "Instituição de Ensino": "Maurício de Sousa uninassau "
-  },
-  {
-    "Nome do participante": "Liam Hoffman ",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "liamhoffman2022@gmail.com",
-    "Instituição de Ensino": "Senac"
-  },
-  {
-    "Nome do participante": "Wendhel Mota luz ",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "wendhelluz1@gmail.com",
-    "Instituição de Ensino": "UNINASSAU"
-  },
-  {
-    "Nome do participante": "Miguel Arcanjo Fontenele Ferreira",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "mg4422718@gmail.com",
-    "Instituição de Ensino": "Uninassau - Parnaíba"
-  },
-  {
-    "Nome do participante": "Gean Carlos Rocha Brito",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "grochabrito@gmail.com",
-    "Instituição de Ensino": "UNINASSAU"
-  },
-  {
-    "Nome do participante": "Marcos Vinicius Carvalho da Silva",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "mvplay111@gmail.com",
-    "Instituição de Ensino": "UNINASSAU - Parnaíba"
-  },
-  {
-    "Nome do participante": "Kauê Victor Dos Santos Lima",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "kauephbnet@gmail.com",
-    "Instituição de Ensino": "Uninassau Parnaíba"
-  },
-  {
-    "Nome do participante": "IGOR GABRIEL DE SOUSA SILVA",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "dev.igorsousa@gmail.com",
-    "Instituição de Ensino": "Faculdade Estácio"
-  },
-  {
-    "Nome do participante": "Walter da Costa Ferreira Neto",
-    "Check-in efetuado": "Não",
-    "E-mail do participante": "waltercostaeng@gmail.com",
-    "Instituição de Ensino": "-"
-  }
-]
+    {
+      "Nome do participante": "Bruno dos Santos Oliveira",
+      // "Check-in efetuado": "Sim",
+      "Check-in efetuado": "Não",
+      "E-mail do participante": "bds.commus@gmail.com",
+      "Instituição de Ensino": "Cajutec"
+    },
+    {
+      "Nome do participante": "Luiz Lins",
+      // "Check-in efetuado": "Sim",
+      "Check-in efetuado": "Sim",
+      "E-mail do participante": "bds.commus@gmail.com",
+      "Instituição de Ensino": "Cajutec"
+    },
+  ]
 
     let intervaloRolagem;
     let tempoTotal = 3000; // 3 segundos
@@ -321,36 +168,70 @@
     }
 
     function mostrarResultado(participante) {
-  document.getElementById('rolandoNomes').innerHTML = "";
+      document.getElementById('rolandoNomes').innerHTML = "";
+      const resultadoDiv = document.getElementById('resultado');
 
-  // Exibe os dados do sorteado
-  document.getElementById('resultado').innerHTML = `
-            <p>🎉 Parabéns!</p>
-            <h2 id="nomeSorteado">${participante["Nome do participante"]}</h2>
-            <div style="font-size: 0.9em; color: #555; text-align: center;">
-            <p><strong>E-mail:</strong> ${participante["E-mail do participante"]}</p>
-            <p><strong>Instituição:</strong> ${participante["Instituição de Ensino"]}</p>
-            <p><strong>Check-in:</strong> ${participante["Check-in efetuado"]}</p>
-            </div>
+      const nome = participante["Nome do participante"];
+      const email = participante["E-mail do participante"];
+      const instituicao = participante["Instituição de Ensino"];
+      const checkin = participante["Check-in efetuado"];
+
+      if (checkin === "Não") {
+        // Mostra overlay de tempestade
+        const overlay = document.getElementById("tempestade-overlay");
+        overlay.style.display = "block";
+
+        // Toca som de trovão (opcional)
+        new Audio('./sons/risada.mp3').play();
+
+        // Exibe mensagem sombria
+        resultadoDiv.innerHTML = `
+          <div id="mensagemErro" class="mensagem-erro">
+            ⚡ A sorte não está com você, <h2><strong>${nome}</strong>...</h2><br>
+            Você não fez check-in.<br>
+            ❌ Ficará pra próxima!
+          </div>
         `;
 
-        // Dispara os confetes 🎉
-        confetti({
-            particleCount: 200,
-            angle: 90,
-            spread: 90,
-            startVelocity: 45,
-            decay: 0.91,
-            gravity: 1.2,
-            drift: 0,
-            colors: ['#FFC53A', '#FF4E88', '#4EFFFF', '#B2FF4A', '#FF99F7'],
-            shapes: ['circle', 'square'],
-            scalar: 1.2,
-            ticks: 200
-        });
-    }
+        // Remove a tempestade após 4 segundos
+        setTimeout(() => {
+          overlay.style.display = "none";
+        }, 4000);
 
-    
+        return;
+      }
+
+      // Se fez check-in, mostra os dados normais + confetes
+      resultadoDiv.innerHTML = `
+        <p>🎉 Parabéns!</p>
+        <h2 id="nomeSorteado">${nome}</h2>
+        <div style="font-size: 0.9em; color: #555; text-align: center;">
+          <p><strong>E-mail:</strong> ${email}</p>
+          <p><strong>Instituição:</strong> ${instituicao}</p>
+          <p><strong>Check-in:</strong> ${checkin}</p>
+        </div>
+      `;
+
+      // Confetes 🎉
+      confetti({
+        particleCount: 200,
+        angle: 90,
+        spread: 90,
+        startVelocity: 45,
+        decay: 0.91,
+        gravity: 1.2,
+        drift: 0,
+        colors: ['#FFC53A', '#FF4E88', '#4EFFFF', '#B2FF4A', '#FF99F7'],
+        shapes: ['circle', 'square'],
+        scalar: 1.2,
+        ticks: 200
+      });
+        new Audio('./sons/vitoria.mp3').play();
+
+    }
   </script>
+  <div id="tempestade-overlay">
+  <div class="raio" style="position: absolute; width: 5px; height: 100%; background: white; animation: raioAnim 0.2s infinite;"></div>
+</div>
 </body>
 </html>
